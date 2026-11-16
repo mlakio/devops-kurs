@@ -1,10 +1,9 @@
-  GNU nano 8.7.1                                /etc/nginx/sites-available/twoja.local
 server {
     listen 80;
     server_name twoja.local;
 
     root /home/mlakio/lekcja-13/zd13/twoja.local;
-    index index.html index.htm;
+    index index.html;
 
     error_page 404 /errors/404.html;
     error_page 500 502 503 504 /errors/50x.html;
@@ -16,4 +15,11 @@ server {
     location = /errors/50x.html {
         internal;
     }
-}
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location /pobierz/ {                        #ogranicza autoindex do konkretnej ścieżki
+        autoindex on;                           #włącza wykaz plików
+        autoindex_exact_size off;               #wyświetla czytelne rozmiary(KB,MB)
+        autoindex_localtime on;                 #pokazuje czas lokalny
